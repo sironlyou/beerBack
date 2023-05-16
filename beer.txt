@@ -1,0 +1,51 @@
+header beername
+rating 5*
+price 
+shop
+availability 
+review 
+image 
+reports 
+
+
+
+
+цена
+вкус 
+качество 
+доступность в магазине 
+насколько оно въебывает
+
+
+
+
+sorting:{
+price 
+ahcohol 
+}
+
+Страна бренда: Россия/не Россия/не выбрано 
+
+Тип напитка: Пиво/пивной напиток 
+
+Цвет: светлое
+
+Крепость: 4.5 % об./0
+
+
+
+{
+author:id=>fetch username+avatar(id автора поста с последющим запросом на аватарку и никнейм )
+tags:{
+import:1/0
+alc%
+price $
+}
+progressbars:{4 гтуки}
+review body
+likes
+}
+
+
+
+

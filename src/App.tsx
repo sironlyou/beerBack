@@ -1,24 +1,71 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Post } from "./Post";
+import { ApolloProvider, useMutation, useQuery } from "@apollo/client";
+import { client } from "./graphql/apollo-client";
+import { Toaster } from "react-hot-toast";
+import { SignUp } from "./Signup";
+import { SignIn } from "./SignIn";
+import UserOperations from "./graphql/operations/post";
+import { $modal, $user, updateModal, updateUser } from "./utils/store";
+import { useStore } from "effector-react";
+import { NewPost } from "./newPost";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import { Feed } from "./Feed";
 
 function App() {
+  const me = useStore($user);
+  const {
+    data: user,
+    // loading: postLoading,
+    // error: postError,
+  } = useQuery(UserOperations.Query.getUser, {
+    onError: ({ message }) => {
+      console.log(message);
+      navigate("/signin");
+    },
+    onCompleted: (data) => {
+      console.log(data);
+      updateUser({
+        avatar: data.getUser.avatar,
+        email: data.getUser.email,
+        id: data.getUser.id,
+        username: data.getUser.username,
+      });
+    },
+  });
+  const navigate = useNavigate();
+  const [logoutUser] = useMutation(UserOperations.Mutations.logoutUser);
+  const onLogout = async () => {
+    await logoutUser();
+    navigate("/signup");
+    updateUser({
+      avatar: "",
+      email: "",
+      id: "",
+      username: "",
+    });
+  };
+  const modal = useStore($modal);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        {me.username}
+        <button onClick={onLogout}>logout</button>
       </header>
+      <Routes>
+        <Route path="/signin" element={<SignIn />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/" element={<Navigate to={"/feed"} />}></Route>
+
+        <Route path="/feed" element={<Feed />}></Route>
+      </Routes>
+      <Toaster />
     </div>
   );
 }

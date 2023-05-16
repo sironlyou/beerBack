@@ -1,0 +1,119 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  background-color: green;
+  min-height: 200px;
+  border-radius: 20px;
+  margin-bottom: 7px;
+}
+.break {
+  height: 1px;
+  background-color: black;
+  width: 100%;
+}
+.userPost {
+  display: flex;
+  flex-direction: column;
+}
+.avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.postInfo {
+  display: flex;
+  align-items: center;
+}
+.postHeader {
+  padding: 10px;
+
+  display: flex;
+  justify-content: space-between;
+}
+.postFooter {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.likeBtn {
+  display: flex;
+  background-color: grey;
+  border-radius: 12px;
+  width: 90px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+.tags {
+  display: flex;
+  margin-bottom: 15px;
+}
+.progressBar {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+.postBody {
+  padding: 10px;
+}
+.Bar {
+  border: 1px solid black;
+  width: 100px;
+  display: flex;
+}
+.progressBarName {
+  margin-right: 10px;
+}
+.progressBarFill {
+  width: 80%;
+  background-color: brown;
+}
+.postImg {
+  width: 100%;
+  max-height: 200px;
+}
+.beerName {
+  margin: 0;
+  margin-right: 15px;
+}
+.tag {
+  background-color: purple;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+.modal {
+  position: absolute;
+  left: 50%;
+  top: 2%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  overflow-x: scroll;
+  max-height: 600px;
+
+  overflow-y: auto;
+  background: #ffffff;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
+  border-radius: 7px;
+  min-width: 200px;
+  min-height: 160px;
+  max-width: 80%;
+  padding-top: 24px;
+  margin-bottom: 25px;
+}
+.backDrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
