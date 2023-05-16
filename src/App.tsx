@@ -1,23 +1,15 @@
-import React, { useState } from "react";
-import { Post } from "./Post";
-import { ApolloProvider, useMutation, useQuery } from "@apollo/client";
-import { client } from "./graphql/apollo-client";
+import React from "react";
+import { useMutation, useQuery } from "@apollo/client";
 import { Toaster } from "react-hot-toast";
 import { SignUp } from "./Signup";
 import { SignIn } from "./SignIn";
 import UserOperations from "./graphql/operations/post";
-import { $modal, $user, updateModal, updateUser } from "./utils/store";
+import { $user, updateUser } from "./utils/store";
 import { useStore } from "effector-react";
-import { NewPost } from "./newPost";
 import styles from "./styles/styles.module.css";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { Feed } from "./Feed";
+import { Button } from "@chakra-ui/react";
 
 function App() {
   const me = useStore($user);
@@ -52,12 +44,11 @@ function App() {
       username: "",
     });
   };
-  const modal = useStore($modal);
   return (
     <div className="App">
       <header className={styles.header}>
         {me.username}
-        <button onClick={onLogout}>logout</button>
+        <Button onClick={onLogout}>Logout</Button>
       </header>
       <Routes>
         <Route path="/signin" element={<SignIn />}></Route>

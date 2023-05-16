@@ -8,6 +8,7 @@ import styles from "./styles/styles.module.css";
 import PostOperations from "./graphql/operations/post";
 import { $modal, updateModal } from "./utils/store";
 import { useStore } from "effector-react";
+import { Box } from "@chakra-ui/react";
 
 export interface IPost {
   id: string;
@@ -79,7 +80,13 @@ export const Post = () => {
             origin,
             value,
           }) => (
-            <div className={styles.post} key={id}>
+            <Box
+              bg="blackAlpha.300"
+              borderRadius="10px"
+              margin="auto"
+              marginBottom={6}
+              maxWidth="80%"
+              key={id}>
               <PostHeader createdAt={createdAt} author={author} />
               <Break />
               <PostBody
@@ -97,7 +104,7 @@ export const Post = () => {
               />
               <Break />
               <PostFooter id={id} likes={likes} />
-            </div>
+            </Box>
           )
         )}
     </>
