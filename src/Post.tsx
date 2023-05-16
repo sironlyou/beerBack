@@ -9,26 +9,26 @@ import PostOperations from "./graphql/operations/post";
 import { $modal, updateModal } from "./utils/store";
 import { useStore } from "effector-react";
 
+export interface IPost {
+  id: string;
+  author: string;
+  origin: string;
+  alcohol: string;
+  value: string;
+  price: string;
+  taste: string;
+  quality: string;
+  alcoholHit: string;
+  beerName: string;
+  reviewBody: string;
+  rating: string;
+  image: string;
+  likes: [string];
+  createdAt: string;
+}
 export const Post = () => {
   interface IPostData {
     getPosts: IPost[];
-  }
-  interface IPost {
-    id: string;
-    author: string;
-    origin: string;
-    alcohol: string;
-    value: string;
-    price: string;
-    taste: string;
-    quality: string;
-    alcoholHit: string;
-    beerName: string;
-    reviewBody: string;
-    rating: string;
-    image: string;
-    likesCount: string;
-    createdAt: string;
   }
   // interface PostV2 {
   //   author: string;
@@ -75,7 +75,7 @@ export const Post = () => {
             reviewBody,
             taste,
             id,
-            likesCount,
+            likes,
             origin,
             value,
           }) => (
@@ -96,7 +96,7 @@ export const Post = () => {
                 value={value}
               />
               <Break />
-              <PostFooter likesCount={likesCount} />
+              <PostFooter id={id} likes={likes} />
             </div>
           )
         )}

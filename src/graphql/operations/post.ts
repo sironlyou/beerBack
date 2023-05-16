@@ -2,6 +2,50 @@
 import { gql } from "@apollo/client";
 export default {
   Mutations: {
+    likedPost: gql`
+      mutation LikedPost($postId: String) {
+        likedPost(postId: $postId) {
+          alcohol
+          alcoholHit
+          author
+          authorImg
+          beerName
+          id
+          createdAt
+          image
+          likes
+          origin
+          price
+          quality
+          rating
+          reviewBody
+          taste
+          value
+        }
+      }
+    `,
+    dislikedPost: gql`
+      mutation DislikedPost($postId: String) {
+        dislikedPost(postId: $postId) {
+          alcohol
+          alcoholHit
+          author
+          authorImg
+          beerName
+          id
+          createdAt
+          image
+          likes
+          origin
+          price
+          quality
+          rating
+          reviewBody
+          taste
+          value
+        }
+      }
+    `,
     loginUser: gql`
       mutation LoginUser($login: String!, $password: String!) {
         loginUser(login: $login, password: $password) {
@@ -39,50 +83,50 @@ export default {
     createPost: gql`
       mutation CreatePost(
         $author: String
-        $alcohol: String
         $origin: String
+        $alcohol: String
         $value: String
         $price: String
         $taste: String
         $quality: String
-        $alcoholHit: String
         $beerName: String
-        $rating: String
-        $reviewBody: String
-        $image: String
         $authorImg: String
+        $image: String
+        $reviewBody: String
+        $rating: String
+        $alcoholHit: String
       ) {
         createPost(
           author: $author
-          alcohol: $alcohol
           origin: $origin
+          alcohol: $alcohol
           value: $value
           price: $price
           taste: $taste
           quality: $quality
-          alcoholHit: $alcoholHit
           beerName: $beerName
-          rating: $rating
-          reviewBody: $reviewBody
-          image: $image
           authorImg: $authorImg
+          image: $image
+          reviewBody: $reviewBody
+          rating: $rating
+          alcoholHit: $alcoholHit
         ) {
+          alcohol
+          alcoholHit
+          author
+          authorImg
+          beerName
+          createdAt
+          id
+          image
           value
           taste
           reviewBody
           rating
-          price
+          likes
           origin
+          price
           quality
-          likesCount
-          image
-          createdAt
-          id
-          beerName
-          author
-          alcoholHit
-          alcohol
-          authorImg
         }
       }
     `,
@@ -116,7 +160,7 @@ export default {
           createdAt
           id
           image
-          likesCount
+          likes
           origin
           price
           reviewBody

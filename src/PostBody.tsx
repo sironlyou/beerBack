@@ -54,7 +54,7 @@ export const PostBody = ({
       ))}
 
       <div>
-        <p>{reviewBody}</p>
+        <span className={styles.commentText}>{reviewBody}</span>
       </div>
       <img className={styles.postImg} src={image} alt="" />
     </div>
