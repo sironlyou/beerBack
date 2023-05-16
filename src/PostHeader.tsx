@@ -17,7 +17,7 @@ export const PostHeader = ({ author, createdAt }: PostHeaderProps) => {
           <span>5ч назад</span>
         </div>
       </div>
-      <button>report</button>
+      {/* <button>report</button> */}
     </div>
   );
 };

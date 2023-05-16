@@ -9,6 +9,7 @@ import UserOperations from "./graphql/operations/post";
 import { $modal, $user, updateModal, updateUser } from "./utils/store";
 import { useStore } from "effector-react";
 import { NewPost } from "./newPost";
+import styles from "./styles/styles.module.css";
 import {
   BrowserRouter,
   Navigate,
@@ -54,7 +55,7 @@ function App() {
   const modal = useStore($modal);
   return (
     <div className="App">
-      <header>
+      <header className={styles.header}>
         {me.username}
         <button onClick={onLogout}>logout</button>
       </header>

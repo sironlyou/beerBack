@@ -110,6 +110,7 @@ export const NewPost = () => {
     } finally {
       toast.success("Username successfully created");
     }
+    updateModal(false);
   };
   const node = document.querySelector("#modal_root");
   if (!node) return null;

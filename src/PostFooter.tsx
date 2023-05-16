@@ -47,7 +47,7 @@ export const PostFooter = ({ likes, id }: PostFooterProps) => {
         <BeerLikeBtn />
         <span>{likes.length}</span>
       </span>
-      <ShareBtn />
+      {/* <ShareBtn /> */}
     </div>
   );
 };
