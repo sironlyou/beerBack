@@ -42,16 +42,21 @@ export const PostBody = ({
         <div className={styles.tag}>{value}</div>
       </div>
 
-      {progressBarArr.map((item) => (
-        <div key={Object.keys(item)[0]} className={styles.progressBar}>
-          <span className={styles.progressBarName}>{Object.keys(item)[0]}</span>
-          <span className={styles.Bar}>
-            <span
-              style={{ width: `${Object.values(item)[0] * 20}%` }}
-              className={styles.progressBarFill}></span>
-          </span>
-        </div>
-      ))}
+      <div className={styles.barsWrap}>
+        {" "}
+        {progressBarArr.map((item) => (
+          <div key={Object.keys(item)[0]} className={styles.progressBar}>
+            <span className={styles.progressBarName}>
+              {Object.keys(item)[0]}
+            </span>
+            <span className={styles.Bar}>
+              <span
+                style={{ width: `${Object.values(item)[0] * 20}%` }}
+                className={styles.progressBarFill}></span>
+            </span>
+          </div>
+        ))}
+      </div>
 
       <div>
         <span className={styles.commentText}>{reviewBody}</span>

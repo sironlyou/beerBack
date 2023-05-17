@@ -5,11 +5,21 @@ import PostOperations from "./graphql/operations/post";
 import { useMutation } from "@apollo/client";
 import { useStore } from "effector-react";
 import { $user } from "./utils/store";
+import { Dispatch, SetStateAction } from "react";
 interface PostFooterProps {
   likes: [string];
   id: string;
+  comments: [string];
+  setCommentsOpen: Dispatch<SetStateAction<boolean>>;
+  commentsOpen: boolean;
 }
-export const PostFooter = ({ likes, id }: PostFooterProps) => {
+export const PostFooter = ({
+  likes,
+  id,
+  comments,
+  setCommentsOpen,
+  commentsOpen,
+}: PostFooterProps) => {
   const [likedPost, { data: like }] = useMutation(
     PostOperations.Mutations.likedPost
   );
@@ -19,23 +29,16 @@ export const PostFooter = ({ likes, id }: PostFooterProps) => {
   const user = useStore($user);
 
   const likedByMe = likes.includes(user.username);
-  console.log(user.username);
-  console.log(likedByMe);
-  console.log(id);
   const handleLike = async () => {
     if (!likedByMe) {
       await likedPost({
         variables: { postId: id },
-        onCompleted: ({ newData }) => {
-          console.log(newData);
-        },
+        onCompleted: ({ newData }) => {},
       });
     } else {
       await dislikedPost({
         variables: { postId: id },
-        onCompleted: ({ newData }) => {
-          console.log(newData);
-        },
+        onCompleted: ({ newData }) => {},
       });
     }
   };
@@ -46,6 +49,9 @@ export const PostFooter = ({ likes, id }: PostFooterProps) => {
         className={likedByMe ? styles.likedBtn : styles.likeBtn}>
         <BeerLikeBtn />
         <span>{likes.length}</span>
+      </span>
+      <span onClick={(e) => setCommentsOpen(!commentsOpen)}>
+        {comments.length}
       </span>
       {/* <ShareBtn /> */}
     </div>

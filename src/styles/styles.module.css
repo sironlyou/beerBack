@@ -61,22 +61,24 @@
 .tags {
   display: flex;
   margin-bottom: 15px;
+  align-items: center;
 }
+
 .progressBar {
   display: flex;
   justify-content: space-between;
-  width: 300px;
+  align-items: center;
+  width: 36%;
 }
 .postBody {
   padding: 10px;
 }
 .Bar {
-  border: 1px solid black;
   background-color: #2a4365;
   border-radius: 10px;
   width: 100px;
   display: flex;
-  height: 15px;
+  height: 10px;
 }
 .progressBarName {
   margin-right: 10px;
@@ -95,15 +97,18 @@
 .beerName {
   margin: 0;
   margin-right: 15px;
+  font-weight: bold;
+  font-size: 37px;
 }
 .tag {
   background-color: #48bb78;
   border-radius: 10px;
-  width: 50px;
+  padding: 0 15px 0 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 5px;
+  height: 27px;
 }
 .modal {
   position: absolute;
@@ -112,15 +117,13 @@
   transform: translateX(-50%);
   z-index: 1000;
   overflow-x: scroll;
-  max-height: 600px;
-
+  max-height: 80%;
   overflow-y: auto;
   background: #ffffff;
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.15);
   border-radius: 7px;
-  min-width: 200px;
-  min-height: 160px;
-  max-width: 80%;
+  width: 64%;
+
   padding-top: 24px;
   margin-bottom: 25px;
 }
@@ -158,4 +161,28 @@
 .logoutBtn {
   border: none;
   background-color: #718096;
+}
+.dropzone {
+  border: 1px solid black;
+  margin: 0 auto;
+  border-radius: 50%;
+  margin-bottom: 6px;
+  width: 200px;
+  height: 200px;
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+}
+.selectedImg {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+}
+.barsWrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 26px;
+  justify-content: center;
 }

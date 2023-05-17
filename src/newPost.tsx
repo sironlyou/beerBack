@@ -1,42 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useCallback, useState } from "react";
 import styles from "./styles/styles.module.css";
-// {
-//   /* <form className={styles.post}>
-//   <input
-//     type="text"
-//     onChange={(e) => setReview({ ...review, name: e.target.value })}
-//     placeholder="название пива"
-//   />
-//   <input
-//     type="text"
-//     onChange={(e) => setReview({ ...review, rating: e.target.value })}
-//     min={1}
-//     max={5}
-//     placeholder="рейтинг"
-//   />
-//   <input
-//     type="text"
-//     onChange={(e) => setReview({ ...review, price: e.target.value })}
-//     placeholder="цена"
-//   />
-//   <input
-//     type="text"
-//     onChange={(e) => setReview({ ...review, shop: e.target.value })}
-//     placeholder="магазин"
-//   />
-//   <input
-//     type="text"
-//     onChange={(e) => setReview({ ...review, availability: e.target.value })}
-//     placeholder="доступность"
-//   />
-//   <input
-//     type="text"
-//     onChange={(e) => setReview({ ...review, comment: e.target.value })}
-//     placeholder="отзыв"
-//   />
-// </form>; */
-// }
 
 import PostOperations from "./graphql/operations/post";
 import axios from "axios";
@@ -44,10 +8,12 @@ import { useStore } from "effector-react";
 import { $user, updateModal } from "./utils/store";
 import toast from "react-hot-toast";
 import ReactDOM from "react-dom";
+import { Button, Input, Textarea } from "@chakra-ui/react";
+import { useDropzone } from "react-dropzone";
 
 export const NewPost = () => {
   const user = useStore($user);
-  const [selectedFile, setSelectedFile] = React.useState<Blob>();
+  const [selectedFile, setSelectedFile] = React.useState<File>();
   const [fields, setFields] = useState({
     origin: "",
     alcohol: "",
@@ -61,14 +27,27 @@ export const NewPost = () => {
     rating: "",
   });
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files === null) return;
-    setSelectedFile(event.target.files[0]);
-  };
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    setSelectedFile(file); // Do something with the files
+    console.log(selectedFile);
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const [createPost, { data, loading, error }] = useMutation(
     PostOperations.Mutations.createPost
   );
+  const [newPost] = useMutation(PostOperations.Mutations.createPost, {
+    update(cache, mutationResult) {
+      cache.modify({
+        fields: {
+          getPosts: (previous, { toReference }) => {
+            return [...previous, toReference(mutationResult.data.createPost)];
+          },
+        },
+      });
+    },
+  });
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -88,7 +67,7 @@ export const NewPost = () => {
       const avatar = response.data.Location;
       console.log(avatar);
 
-      const { data } = await createPost({
+      const { data } = await newPost({
         variables: {
           author: user.username,
           authorImg: user.avatar,
@@ -118,7 +97,7 @@ export const NewPost = () => {
     <div className={styles.backDrop} onClick={(e) => updateModal(false)}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <form action="" onSubmit={onSubmit}>
-          <input
+          <Input
             type="text"
             placeholder="origin"
             value={fields.origin}
@@ -126,7 +105,7 @@ export const NewPost = () => {
               setFields({ ...fields, origin: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="alcohol"
             value={fields.alcohol}
@@ -134,7 +113,7 @@ export const NewPost = () => {
               setFields({ ...fields, alcohol: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="value"
             value={fields.value}
@@ -142,7 +121,7 @@ export const NewPost = () => {
               setFields({ ...fields, value: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="price"
             value={fields.price}
@@ -150,7 +129,7 @@ export const NewPost = () => {
               setFields({ ...fields, price: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="taste"
             value={fields.taste}
@@ -158,7 +137,7 @@ export const NewPost = () => {
               setFields({ ...fields, taste: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="quality"
             value={fields.quality}
@@ -166,7 +145,7 @@ export const NewPost = () => {
               setFields({ ...fields, quality: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="alcoholHit"
             value={fields.alcoholHit}
@@ -174,7 +153,7 @@ export const NewPost = () => {
               setFields({ ...fields, alcoholHit: event.target.value })
             }
           />
-          <input
+          <Input
             type="text"
             placeholder="beerName"
             value={fields.beerName}
@@ -182,26 +161,31 @@ export const NewPost = () => {
               setFields({ ...fields, beerName: event.target.value })
             }
           />
-          <input
-            type="text"
+          <Textarea
             placeholder="reviewBody"
             value={fields.reviewBody}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
               setFields({ ...fields, reviewBody: event.target.value })
             }
           />
-          <input
-            type="text"
-            placeholder="rating"
-            value={fields.rating}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setFields({ ...fields, rating: event.target.value })
-            }
-          />
-          <input type="file" onChange={handleFileSelect} />
-          <button type="submit" onClick={onSubmit}>
+
+          <div
+            className={isDragActive ? styles.dropzone : styles.dropzone}
+            {...getRootProps()}>
+            <input {...getInputProps()} />
+            {typeof selectedFile === "undefined" ? (
+              <span style={{ fontSize: "69px" }}>+</span>
+            ) : (
+              <img
+                className={styles.selectedImg}
+                src={URL.createObjectURL(selectedFile)}
+                alt=""
+              />
+            )}
+          </div>
+          <Button margin="0 auto" type="submit" onClick={onSubmit}>
             submit
-          </button>
+          </Button>
         </form>
       </div>
     </div>,

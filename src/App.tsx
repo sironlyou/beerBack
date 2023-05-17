@@ -13,6 +13,7 @@ import { Button } from "@chakra-ui/react";
 
 function App() {
   const me = useStore($user);
+  const navigate = useNavigate();
   const {
     data: user,
     // loading: postLoading,
@@ -20,7 +21,7 @@ function App() {
   } = useQuery(UserOperations.Query.getUser, {
     onError: ({ message }) => {
       console.log(message);
-      navigate("/signin");
+      // navigate("/signin");
     },
     onCompleted: (data) => {
       console.log(data);
@@ -32,24 +33,9 @@ function App() {
       });
     },
   });
-  const navigate = useNavigate();
-  const [logoutUser] = useMutation(UserOperations.Mutations.logoutUser);
-  const onLogout = async () => {
-    await logoutUser();
-    navigate("/signup");
-    updateUser({
-      avatar: "",
-      email: "",
-      id: "",
-      username: "",
-    });
-  };
+
   return (
     <div className="App">
-      <header className={styles.header}>
-        {me.username}
-        <Button onClick={onLogout}>Logout</Button>
-      </header>
       <Routes>
         <Route path="/signin" element={<SignIn />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>

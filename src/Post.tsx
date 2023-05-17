@@ -9,6 +9,9 @@ import PostOperations from "./graphql/operations/post";
 import { $modal, updateModal } from "./utils/store";
 import { useStore } from "effector-react";
 import { Box } from "@chakra-ui/react";
+import { Comments } from "./Comments";
+import { useState } from "react";
+import { CommentForm } from "./CommentForm";
 
 export interface IPost {
   id: string;
@@ -26,27 +29,13 @@ export interface IPost {
   image: string;
   likes: [string];
   createdAt: string;
+  comments: [string];
 }
 export const Post = () => {
   interface IPostData {
     getPosts: IPost[];
   }
-  // interface PostV2 {
-  //   author: string;
-  //   origin: string;
-  //   alcohol: string;
-  //   value: string;
-  //   price: string;
-  //   taste: string;
-  //   quality: string;
-  //   alcoholHit: string;
-  //   beerName: string;
-  //   reviewBody: string;
-  //   rating: string;
-  //   image: string;
-  //   likesCount: string;
-  //   createdAt: string;
-  // }
+
   const {
     data: postData,
     // loading: postLoading,
@@ -56,7 +45,7 @@ export const Post = () => {
       console.log(message);
     },
   });
-  console.log(postData);
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const modal = useStore($modal);
   //   const posts: IPost[] = postData.getPosts;
   return (
@@ -79,6 +68,7 @@ export const Post = () => {
             likes,
             origin,
             value,
+            comments,
           }) => (
             <Box
               bg="blackAlpha.300"
@@ -103,7 +93,19 @@ export const Post = () => {
                 value={value}
               />
               <Break />
-              <PostFooter id={id} likes={likes} />
+              <PostFooter
+                id={id}
+                likes={likes}
+                comments={comments}
+                setCommentsOpen={setCommentsOpen}
+                commentsOpen={commentsOpen}
+              />
+              {commentsOpen && (
+                <>
+                  <Comments postId={id} />
+                  <CommentForm author={author} postId={id} />
+                </>
+              )}
             </Box>
           )
         )}

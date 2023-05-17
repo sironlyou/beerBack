@@ -2,6 +2,17 @@
 import { gql } from "@apollo/client";
 export default {
   Mutations: {
+    createComment: gql`
+      mutation Mutation($author: String, $body: String, $postId: String) {
+        createComment(author: $author, body: $body, postId: $postId) {
+          author
+          body
+          id
+          createdAt
+          postId
+        }
+      }
+    `,
     likedPost: gql`
       mutation LikedPost($postId: String) {
         likedPost(postId: $postId) {
@@ -48,14 +59,7 @@ export default {
     `,
     loginUser: gql`
       mutation LoginUser($login: String!, $password: String!) {
-        loginUser(login: $login, password: $password) {
-          avatar
-          email
-          password
-          username
-          token
-          id
-        }
+        loginUser(login: $login, password: $password)
       }
     `,
     createUser: gql`
@@ -74,7 +78,7 @@ export default {
           avatar
           email
           password
-          token
+
           id
           username
         }
@@ -137,6 +141,17 @@ export default {
     `,
   },
   Query: {
+    getComments: gql`
+      query Query($postId: String) {
+        getComments(postId: $postId) {
+          body
+          author
+          createdAt
+          id
+          postId
+        }
+      }
+    `,
     getUser: gql`
       query Query {
         getUser {
@@ -168,6 +183,7 @@ export default {
           quality
           value
           taste
+          comments
         }
       }
     `,
