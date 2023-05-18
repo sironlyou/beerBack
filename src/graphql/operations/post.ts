@@ -3,13 +3,22 @@ import { gql } from "@apollo/client";
 export default {
   Mutations: {
     createComment: gql`
-      mutation Mutation($author: String, $body: String, $postId: String) {
+      mutation CreateComment($author: String, $body: String, $postId: String) {
         createComment(author: $author, body: $body, postId: $postId) {
-          author
-          body
-          id
-          createdAt
-          postId
+          comment {
+            author
+            body
+            createdAt
+            id
+            postId
+          }
+          user {
+            avatar
+            password
+            id
+            username
+            email
+          }
         }
       }
     `,
@@ -59,7 +68,13 @@ export default {
     `,
     loginUser: gql`
       mutation LoginUser($login: String!, $password: String!) {
-        loginUser(login: $login, password: $password)
+        loginUser(login: $login, password: $password) {
+          avatar
+          email
+          password
+          username
+          id
+        }
       }
     `,
     createUser: gql`
@@ -85,20 +100,20 @@ export default {
       }
     `,
     createPost: gql`
-      mutation CreatePost(
+      mutation CreateComment(
         $author: String
         $origin: String
         $alcohol: String
         $value: String
         $price: String
-        $taste: String
         $quality: String
-        $beerName: String
-        $authorImg: String
-        $image: String
-        $reviewBody: String
-        $rating: String
+        $taste: String
         $alcoholHit: String
+        $beerName: String
+        $reviewBody: String
+        $image: String
+        $authorImg: String
+        $rating: String
       ) {
         createPost(
           author: $author
@@ -106,31 +121,41 @@ export default {
           alcohol: $alcohol
           value: $value
           price: $price
-          taste: $taste
           quality: $quality
-          beerName: $beerName
-          authorImg: $authorImg
-          image: $image
-          reviewBody: $reviewBody
-          rating: $rating
+          taste: $taste
           alcoholHit: $alcoholHit
+          beerName: $beerName
+          reviewBody: $reviewBody
+          image: $image
+          authorImg: $authorImg
+          rating: $rating
         ) {
-          alcohol
-          alcoholHit
-          author
-          authorImg
-          beerName
-          createdAt
-          id
-          image
-          value
-          taste
-          reviewBody
-          rating
-          likes
-          origin
-          price
-          quality
+          post {
+            alcohol
+            alcoholHit
+            authorImg
+            author
+            beerName
+            createdAt
+            comments
+            image
+            id
+            likes
+            origin
+            price
+            quality
+            rating
+            taste
+            reviewBody
+            value
+          }
+          user {
+            avatar
+            email
+            password
+            id
+            username
+          }
         }
       }
     `,
@@ -144,11 +169,20 @@ export default {
     getComments: gql`
       query Query($postId: String) {
         getComments(postId: $postId) {
-          body
-          author
-          createdAt
-          id
-          postId
+          comment {
+            postId
+            id
+            createdAt
+            author
+            body
+          }
+          user {
+            avatar
+            id
+            username
+            password
+            email
+          }
         }
       }
     `,
@@ -159,7 +193,7 @@ export default {
           email
           id
           password
-          token
+
           username
         }
       }
@@ -168,22 +202,32 @@ export default {
     getPosts: gql`
       query GetPosts($amount: Int) {
         getPosts(amount: $amount) {
-          alcohol
-          alcoholHit
-          author
-          beerName
-          createdAt
-          id
-          image
-          likes
-          origin
-          price
-          reviewBody
-          rating
-          quality
-          value
-          taste
-          comments
+          post {
+            alcohol
+            alcoholHit
+            author
+            authorImg
+            beerName
+            comments
+            createdAt
+            id
+            image
+            likes
+            quality
+            origin
+            price
+            rating
+            reviewBody
+            taste
+            value
+          }
+          user {
+            avatar
+            email
+            password
+            id
+            username
+          }
         }
       }
     `,

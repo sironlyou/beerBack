@@ -69,13 +69,12 @@ export const SignIn = () => {
             {" "}
             Already have an account?
           </Text>
-          <ChakraLink>
-            <Link to={"/signup"}>
-              <Text color={"#2D3748"} fontSize={10}>
-                sign up
-              </Text>
-            </Link>
-          </ChakraLink>
+
+          <Link to={"/signup"}>
+            <Text color={"#2D3748"} fontSize={10}>
+              sign up
+            </Text>
+          </Link>
         </Box>
       </Box>
     </>

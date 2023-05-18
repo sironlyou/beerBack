@@ -34,15 +34,15 @@ export const NewPost = () => {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const [createPost, { data, loading, error }] = useMutation(
-    PostOperations.Mutations.createPost
-  );
   const [newPost] = useMutation(PostOperations.Mutations.createPost, {
     update(cache, mutationResult) {
       cache.modify({
         fields: {
           getPosts: (previous, { toReference }) => {
-            return [...previous, toReference(mutationResult.data.createPost)];
+            return [
+              ...previous,
+              toReference(mutationResult.data.createPost.post),
+            ];
           },
         },
       });
@@ -69,7 +69,7 @@ export const NewPost = () => {
 
       const { data } = await newPost({
         variables: {
-          author: user.username,
+          author: user.id,
           authorImg: user.avatar,
           beerName: fields.beerName,
           reviewBody: fields.reviewBody,

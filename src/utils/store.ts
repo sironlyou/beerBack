@@ -13,10 +13,20 @@ export interface User {
   id: string;
   username: string;
 }
-// $user.watch((state) => console.log(state));
+$user.watch((state) => console.log(state));
 export const updateModal = createEvent<boolean>();
 export const $modal = createStore<boolean>(false).on(
   updateModal,
   (_, newModal) => newModal
 );
-$modal.watch((state) => console.log(state));
+// $modal.watch((state) => console.log(state));
+export const updateComment = createEvent<string>();
+export const $comment = createStore<string>("").on(
+  updateComment,
+  (_, newComment) => newComment
+);
+export const commentReply = createEvent<string>();
+export const $reply = createStore<string>("").on(
+  commentReply,
+  (_, newComment) => newComment
+);

@@ -6,7 +6,7 @@ import { Break } from "./assets/Break";
 import { NewPost } from "./newPost";
 import styles from "./styles/styles.module.css";
 import PostOperations from "./graphql/operations/post";
-import { $modal, updateModal } from "./utils/store";
+import { $modal, $user, User, updateModal } from "./utils/store";
 import { useStore } from "effector-react";
 import { Box } from "@chakra-ui/react";
 import { Comments } from "./Comments";
@@ -32,8 +32,12 @@ export interface IPost {
   comments: [string];
 }
 export const Post = () => {
+  interface getPostsResponse {
+    post: IPost;
+    user: User;
+  }
   interface IPostData {
-    getPosts: IPost[];
+    getPosts: getPostsResponse[];
   }
 
   const {
@@ -46,69 +50,53 @@ export const Post = () => {
     },
   });
   const [commentsOpen, setCommentsOpen] = useState(false);
-  const modal = useStore($modal);
-  //   const posts: IPost[] = postData.getPosts;
+  const account = useStore($user);
   return (
     <>
       {postData &&
-        postData.getPosts.map(
-          ({
-            alcohol,
-            alcoholHit,
-            author,
-            beerName,
-            createdAt,
-            image,
-            price,
-            quality,
-            rating,
-            reviewBody,
-            taste,
-            id,
-            likes,
-            origin,
-            value,
-            comments,
-          }) => (
-            <Box
-              bg="blackAlpha.300"
-              borderRadius="10px"
-              margin="auto"
-              marginBottom={6}
-              maxWidth="80%"
-              key={id}>
-              <PostHeader createdAt={createdAt} author={author} />
-              <Break />
-              <PostBody
-                reviewBody={reviewBody}
-                alcohol={alcohol}
-                alcoholHit={alcoholHit}
-                beerName={beerName}
-                image={image}
-                price={price}
-                quality={quality}
-                rating={rating}
-                taste={taste}
-                origin={origin}
-                value={value}
-              />
-              <Break />
-              <PostFooter
-                id={id}
-                likes={likes}
-                comments={comments}
-                setCommentsOpen={setCommentsOpen}
-                commentsOpen={commentsOpen}
-              />
-              {commentsOpen && (
-                <>
-                  <Comments postId={id} />
-                  <CommentForm author={author} postId={id} />
-                </>
-              )}
-            </Box>
-          )
-        )}
+        postData.getPosts.map(({ post, user }) => (
+          <Box
+            bg="blackAlpha.300"
+            borderRadius="10px"
+            margin="auto"
+            marginBottom={6}
+            maxWidth="80%"
+            key={post.id}>
+            <PostHeader
+              createdAt={post.createdAt}
+              avatar={user.avatar}
+              username={user.username}
+            />
+            <Break />
+            <PostBody
+              reviewBody={post.reviewBody}
+              alcohol={post.alcohol}
+              alcoholHit={post.alcoholHit}
+              beerName={post.beerName}
+              image={post.image}
+              price={post.price}
+              quality={post.quality}
+              rating={post.rating}
+              taste={post.taste}
+              origin={post.origin}
+              value={post.value}
+            />
+            <Break />
+            <PostFooter
+              id={post.id}
+              likes={post.likes}
+              comments={post.comments}
+              setCommentsOpen={setCommentsOpen}
+              commentsOpen={commentsOpen}
+            />
+            {commentsOpen && (
+              <>
+                <Comments postId={post.id} />
+                <CommentForm author={account.username} postId={post.id} />
+              </>
+            )}
+          </Box>
+        ))}
     </>
   );
 };

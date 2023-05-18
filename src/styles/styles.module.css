@@ -186,3 +186,7 @@
   column-gap: 26px;
   justify-content: center;
 }
+.commentBody {
+  display: flex;
+  padding: 15px;
+}

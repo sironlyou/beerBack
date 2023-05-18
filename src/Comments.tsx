@@ -3,6 +3,9 @@ import PostOperations from "./graphql/operations/post";
 import { Button } from "@chakra-ui/react";
 import { CommentForm } from "./CommentForm";
 import { useState } from "react";
+import { $comment, User, commentReply, updateComment } from "./utils/store";
+import styles from "./styles/styles.module.css";
+import { useStore } from "effector-react";
 interface CommentsProps {
   postId: string;
 }
@@ -15,7 +18,11 @@ export const Comments = ({ postId }: CommentsProps) => {
     author: string;
   }
   interface ICommentData {
-    getComments: IComment[];
+    getComments: getCommentResponse[];
+  }
+  interface getCommentResponse {
+    comment: IComment;
+    user: User;
   }
   const {
     data: commentData,
@@ -29,17 +36,39 @@ export const Comments = ({ postId }: CommentsProps) => {
       console.log(message);
     },
   });
-  const [openForm, setOpenForm] = useState(false);
+  const openComment = useStore($comment);
   return (
     <div>
-      {commentData?.getComments.map(({ id, body, createdAt, author }) => (
-        <div style={{ marginBottom: 5, backgroundColor: "green" }}>
-          <div>{id}</div>
-          <div>{body}</div>
-          <div>{createdAt}</div>
-          <div>{author}</div>
-          <Button onClick={(e) => setOpenForm(true)}>reply</Button>
-          {openForm && <CommentForm author={author} postId={postId} />}
+      {commentData?.getComments.map(({ comment, user }) => (
+        <div
+          key={comment.id}
+          style={{ marginBottom: 5, backgroundColor: "green" }}>
+          <div className={styles.postHeader}>
+            <div className={styles.postInfo}>
+              <img
+                className={styles.avatar}
+                src={user.avatar}
+                alt={user.avatar}
+              />
+              <div className={styles.userPost}>
+                <span>{user.username}</span>
+                <span>created at{comment.createdAt}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.commentBody}> comment body{comment.body}</div>
+          <Button
+            height={"19px"}
+            onClick={(e) => {
+              updateComment(comment.id);
+              commentReply(user.username + ", ");
+            }}>
+            ответить
+          </Button>
+          {openComment === comment.id && (
+            <CommentForm author={user.username} postId={postId} />
+          )}
         </div>
       ))}
     </div>
