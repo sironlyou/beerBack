@@ -2,10 +2,10 @@ import { useQuery } from "@apollo/client";
 import PostOperations from "./graphql/operations/post";
 import { Button } from "@chakra-ui/react";
 import { CommentForm } from "./CommentForm";
-import { useState } from "react";
 import { $comment, User, commentReply, updateComment } from "./utils/store";
 import styles from "./styles/styles.module.css";
 import { useStore } from "effector-react";
+import { format } from "./utils/functions";
 interface CommentsProps {
   postId: string;
 }
@@ -52,7 +52,7 @@ export const Comments = ({ postId }: CommentsProps) => {
               />
               <div className={styles.userPost}>
                 <span>{user.username}</span>
-                <span>created at{comment.createdAt}</span>
+                <span>created at{format(comment.createdAt)}</span>
               </div>
             </div>
           </div>

@@ -4,14 +4,12 @@ import UserOperations from "./graphql/operations/post";
 import { FormEvent, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, Input, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 
 export const SignIn = () => {
   const navigate = useNavigate();
   const [fields, setFields] = useState({ login: "", password: "" });
-  const [loginUser, { loading }] = useMutation(
-    UserOperations.Mutations.loginUser
-  );
+  const [loginUser] = useMutation(UserOperations.Mutations.loginUser);
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {

@@ -5,8 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import UserOperations from "./graphql/operations/post";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, Input, Link as ChakraLink, Text } from "@chakra-ui/react";
-import Dropzone, { useDropzone } from "react-dropzone";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
+import { useDropzone } from "react-dropzone";
 import styles from "./styles/styles.module.css";
 export const SignUp = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
@@ -15,6 +15,7 @@ export const SignUp = () => {
     const file = acceptedFiles[0];
     setSelectedFile(file); // Do something with the files
     console.log(selectedFile);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -24,9 +25,7 @@ export const SignUp = () => {
     email: "",
     avatar: "",
   });
-  const [createUsername, { loading }] = useMutation(
-    UserOperations.Mutations.createUser
-  );
+  const [createUsername] = useMutation(UserOperations.Mutations.createUser);
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {

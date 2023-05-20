@@ -3,14 +3,12 @@ import { PostBody } from "./PostBody";
 import { PostFooter } from "./PostFooter";
 import { PostHeader } from "./PostHeader";
 import { Break } from "./assets/Break";
-import { NewPost } from "./newPost";
-import styles from "./styles/styles.module.css";
 import PostOperations from "./graphql/operations/post";
-import { $modal, $user, User, updateModal } from "./utils/store";
+import { $user, User } from "./utils/store";
 import { useStore } from "effector-react";
 import { Box } from "@chakra-ui/react";
 import { Comments } from "./Comments";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { CommentForm } from "./CommentForm";
 
 export interface IPost {
@@ -31,7 +29,11 @@ export interface IPost {
   createdAt: string;
   comments: [string];
 }
-export const Post = () => {
+interface PostProps {
+  commentsOpen: boolean;
+  setCommentsOpen: Dispatch<SetStateAction<boolean>>;
+}
+export const Post = ({ commentsOpen, setCommentsOpen }: PostProps) => {
   interface getPostsResponse {
     post: IPost;
     user: User;
@@ -49,7 +51,6 @@ export const Post = () => {
       console.log(message);
     },
   });
-  const [commentsOpen, setCommentsOpen] = useState(false);
   const account = useStore($user);
   return (
     <>

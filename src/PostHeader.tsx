@@ -1,4 +1,5 @@
 import styles from "./styles/styles.module.css";
+import { format } from "./utils/functions";
 interface PostHeaderProps {
   avatar: string;
   username: string;
@@ -15,6 +16,7 @@ export const PostHeader = ({
         <img className={styles.avatar} src={avatar} alt="" />
         <div className={styles.userPost}>
           <span>{username}</span>
+          <span>{format(createdAt)}</span>
           <span>{createdAt}</span>
         </div>
       </div>

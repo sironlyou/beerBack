@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import React, { FormEvent, useCallback, useState } from "react";
 import styles from "./styles/styles.module.css";
 
@@ -31,6 +31,7 @@ export const NewPost = () => {
     const file = acceptedFiles[0];
     setSelectedFile(file); // Do something with the files
     console.log(selectedFile);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -67,7 +68,7 @@ export const NewPost = () => {
       const avatar = response.data.Location;
       console.log(avatar);
 
-      const { data } = await newPost({
+      await newPost({
         variables: {
           author: user.id,
           authorImg: user.avatar,

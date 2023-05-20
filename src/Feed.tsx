@@ -7,11 +7,13 @@ import { Button } from "@chakra-ui/react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import UserOperations from "./graphql/operations/post";
+import { useState } from "react";
 export const Feed = () => {
   const modal = useStore($modal);
   const me = useStore($user);
   const [logoutUser] = useMutation(UserOperations.Mutations.logoutUser);
   const navigate = useNavigate();
+  const [commentsOpen, setCommentsOpen] = useState(false);
 
   const onLogout = async () => {
     await logoutUser();
@@ -34,7 +36,7 @@ export const Feed = () => {
       </div>
 
       {modal && <NewPost />}
-      <Post />
+      <Post commentsOpen={commentsOpen} setCommentsOpen={setCommentsOpen} />
     </>
   );
 };

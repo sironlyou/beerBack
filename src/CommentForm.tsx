@@ -1,15 +1,14 @@
 import { Button, Input } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import PostOperations from "./graphql/operations/post";
 import { useMutation } from "@apollo/client";
 import { useStore } from "effector-react";
-import { $reply, $user, commentReply, updateComment } from "./utils/store";
+import { $reply, $user, commentReply } from "./utils/store";
 interface CommentFormProps {
   postId: string;
   author: string;
 }
 export const CommentForm = ({ postId, author }: CommentFormProps) => {
-  const [value, setValue] = useState("");
   const user = useStore($user);
   const reply = useStore($reply);
   const ref = useRef<HTMLInputElement>(null);

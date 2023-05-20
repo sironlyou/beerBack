@@ -1,20 +1,16 @@
 import React from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Toaster } from "react-hot-toast";
 import { SignUp } from "./Signup";
 import { SignIn } from "./SignIn";
 import UserOperations from "./graphql/operations/post";
-import { $user, updateUser } from "./utils/store";
-import { useStore } from "effector-react";
-import styles from "./styles/styles.module.css";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { updateUser } from "./utils/store";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Feed } from "./Feed";
-import { Button } from "@chakra-ui/react";
 
 function App() {
-  const me = useStore($user);
-  const navigate = useNavigate();
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data: user,
     // loading: postLoading,
     // error: postError,

@@ -1,5 +1,4 @@
 import { BeerLikeBtn } from "./assets/BeerLikeBtn";
-import { ShareBtn } from "./assets/ShareBtn";
 import styles from "./styles/styles.module.css";
 import PostOperations from "./graphql/operations/post";
 import { useMutation } from "@apollo/client";
@@ -20,12 +19,8 @@ export const PostFooter = ({
   setCommentsOpen,
   commentsOpen,
 }: PostFooterProps) => {
-  const [likedPost, { data: like }] = useMutation(
-    PostOperations.Mutations.likedPost
-  );
-  const [dislikedPost, { data: dislike }] = useMutation(
-    PostOperations.Mutations.dislikedPost
-  );
+  const [likedPost] = useMutation(PostOperations.Mutations.likedPost);
+  const [dislikedPost] = useMutation(PostOperations.Mutations.dislikedPost);
   const user = useStore($user);
 
   const likedByMe = likes.includes(user.username);
