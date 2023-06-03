@@ -7,6 +7,7 @@ import UserOperations from "./graphql/operations/post";
 import { updateUser } from "./utils/store";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Feed } from "./Feed";
+import { Chat } from "./Chat";
 
 function App() {
   const {
@@ -33,11 +34,11 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/signin" element={<SignIn />}></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/" element={<Navigate to={"/feed"} />}></Route>
-
-        <Route path="/feed" element={<Feed />}></Route>
+        <Route path="/signin" element={<SignIn />}/>
+        <Route path="/signup" element={<SignUp />}/>
+        <Route path="/" element={<Navigate to={"/feed"} />}/>
+        <Route path="/feed" element={<Feed />}/>
+        <Route path="/chat" element={<Chat/>}/>
       </Routes>
       <Toaster />
     </div>

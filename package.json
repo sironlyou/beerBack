@@ -17,6 +17,7 @@
     "axios": "^1.4.0",
     "effector": "^22.8.5",
     "effector-react": "^22.5.2",
+    "graphql-ws": "^5.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",

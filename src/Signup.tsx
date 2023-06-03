@@ -60,6 +60,8 @@ export const SignUp = () => {
         id: user.id,
         username: user.username,
       });
+      localStorage.setItem('userId',user.id)
+
       navigate("/feed");
     } catch (error) {
       console.log(error);

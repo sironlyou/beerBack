@@ -26,6 +26,7 @@ export const SignIn = () => {
         id: user.id,
         username: user.username,
       });
+      localStorage.setItem('userId',user.id)
       navigate("/feed");
       if (!data?.loginUser) {
         throw new Error();
