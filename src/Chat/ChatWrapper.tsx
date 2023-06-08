@@ -2,43 +2,25 @@ import { Box } from "@chakra-ui/react";
 import { ChatBody } from "./ChatBody";
 import { ChatFooter } from "./ChatFooter";
 import { ChatHeader } from "./ChatHeader";
-import styles from "./styles/styles.module.css";
-import PostOperations from "./graphql/operations/post";
-import { $conversation, $user, User } from "./utils/store";
+import styles from "../styles/styles.module.css";
+import { $conversation, $user } from "../utils/store";
 import { useStore } from "effector-react";
 import { useQuery } from "@apollo/client";
 import { useEffect, useRef } from "react";
-import { userInfo } from "os";
-export interface SubscriptionData {
-  subscriptionData: {
-    data: {
-      messageSent: IMessage;
-    };
-  };
-}
-export interface IMessage {
-  body: string;
-  conversation: string;
-  createdAt: string;
+import { MessageOperations } from "../graphql/operations/message";
+import { GetMessagesData, IMessage, SubscriptionData } from "../utils/types";
 
-  id: string;
-
-  media: [string];
-  readBy: [string];
-  senderId: string;
-  updatedAt: string;
-  visibleFor: [string];
-}
 export const ChatWrapper = () => {
   const user = useStore($user);
 
   const conversationId = useStore($conversation);
   const {
     data: messageData,
+    loading,
     subscribeToMore,
     // loading: postLoading,
     // error: postError,
-  } = useQuery<GetMessagesData>(PostOperations.Query.getMessages, {
+  } = useQuery<GetMessagesData>(MessageOperations.Query.getMessages, {
     variables: {
       conversationid: conversationId.conversationid,
       participantId: conversationId.participantId,
@@ -50,7 +32,7 @@ export const ChatWrapper = () => {
 
   const subscribeToMoreMessages = (conversationId: string) => {
     return subscribeToMore({
-      document: PostOperations.Subscription.messageSent,
+      document: MessageOperations.Subscription.messageSent,
       variables: {
         conversationId: conversationId,
       },
@@ -74,18 +56,25 @@ export const ChatWrapper = () => {
 
     return () => unsubscribe();
   }, [conversationId]);
-  interface GetMessagesData {
-    getMessages: IMessageData;
-  }
-  interface IMessageData {
-    messages: IMessage[];
-    userInfo: User;
-  }
+
+  const conversation = useStore($conversation);
   return (
-    <div className={styles.chatWrapper}>
-      <ChatHeader userInfo={messageData?.getMessages.userInfo} />
-      <ChatBody messages={messageData?.getMessages.messages} />
-      <ChatFooter />
-    </div>
+    <>
+      {conversation.conversationid !== "" ? (
+        <div className={styles.chatWrapper}>
+          <ChatHeader
+            loading={loading}
+            userInfo={messageData?.getMessages.userInfo}
+          />
+          <ChatBody
+            loading={loading}
+            messages={messageData?.getMessages.messages}
+          />
+          <ChatFooter />
+        </div>
+      ) : (
+        <div>no chat selected</div>
+      )}
+    </>
   );
 };

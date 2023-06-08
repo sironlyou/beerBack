@@ -6,7 +6,6 @@ import { client } from "./graphql/apollo-client";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "./chakra/theme";
-import { Radio } from "./Radio";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -1,6 +1,6 @@
 export const format = (date: string) => {
   const timePassed = Math.floor((Date.now() - parseInt(date)) / 1000);
-  console.log(timePassed);
+  // console.log(timePassed);
   if (timePassed < 60) {
     return timePassed + "сек назад";
   } else if (timePassed < 60 * 60) {

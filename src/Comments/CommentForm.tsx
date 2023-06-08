@@ -1,13 +1,11 @@
 import { Button, Input } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import PostOperations from "./graphql/operations/post";
 import { useMutation } from "@apollo/client";
 import { useStore } from "effector-react";
-import { $reply, $user, commentReply } from "./utils/store";
-interface CommentFormProps {
-  postId: string;
-  author: string;
-}
+import { $reply, $user, commentReply } from "../utils/store";
+import { CommentOperations } from "../graphql/operations/comment";
+import { CommentFormProps } from "../utils/types";
+
 export const CommentForm = ({ postId, author }: CommentFormProps) => {
   const user = useStore($user);
   const reply = useStore($reply);
@@ -16,7 +14,7 @@ export const CommentForm = ({ postId, author }: CommentFormProps) => {
     ref.current?.focus();
     ref.current?.setSelectionRange(reply.length, reply.length);
   }, [reply]);
-  const [newComment] = useMutation(PostOperations.Mutations.createComment, {
+  const [newComment] = useMutation(CommentOperations.Mutations.createComment, {
     update(cache, mutationResult) {
       cache.modify({
         fields: {

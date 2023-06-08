@@ -1,15 +1,15 @@
 import { useMutation } from "@apollo/client";
 import React, { FormEvent, useCallback, useState } from "react";
-import styles from "./styles/styles.module.css";
+import styles from "../styles/styles.module.css";
 
-import PostOperations from "./graphql/operations/post";
 import axios from "axios";
 import { useStore } from "effector-react";
-import { $user, updateModal } from "./utils/store";
+import { $user, updateModal } from "../utils/store";
 import toast from "react-hot-toast";
 import ReactDOM from "react-dom";
 import { Button, Input, Textarea } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
+import { PostOperations } from "../graphql/operations/post";
 
 export const NewPost = () => {
   const user = useStore($user);
@@ -95,75 +95,81 @@ export const NewPost = () => {
   const node = document.querySelector("#modal_root");
   if (!node) return null;
   return ReactDOM.createPortal(
-    <div className={styles.backDrop} onClick={(e) => updateModal(false)}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <form action="" onSubmit={onSubmit}>
+    <div
+      className={styles.backDrop}
+      onClick={(e) => updateModal(false)}>
+      <div
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}>
+        <form
+          action=''
+          onSubmit={onSubmit}>
           <Input
-            type="text"
-            placeholder="origin"
+            type='text'
+            placeholder='origin'
             value={fields.origin}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, origin: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="alcohol"
+            type='text'
+            placeholder='alcohol'
             value={fields.alcohol}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, alcohol: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="value"
+            type='text'
+            placeholder='value'
             value={fields.value}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, value: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="price"
+            type='text'
+            placeholder='price'
             value={fields.price}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, price: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="taste"
+            type='text'
+            placeholder='taste'
             value={fields.taste}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, taste: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="quality"
+            type='text'
+            placeholder='quality'
             value={fields.quality}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, quality: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="alcoholHit"
+            type='text'
+            placeholder='alcoholHit'
             value={fields.alcoholHit}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, alcoholHit: event.target.value })
             }
           />
           <Input
-            type="text"
-            placeholder="beerName"
+            type='text'
+            placeholder='beerName'
             value={fields.beerName}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, beerName: event.target.value })
             }
           />
           <Textarea
-            placeholder="reviewBody"
+            placeholder='reviewBody'
             value={fields.reviewBody}
             onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
               setFields({ ...fields, reviewBody: event.target.value })
@@ -180,11 +186,14 @@ export const NewPost = () => {
               <img
                 className={styles.selectedImg}
                 src={URL.createObjectURL(selectedFile)}
-                alt=""
+                alt=''
               />
             )}
           </div>
-          <Button margin="0 auto" type="submit" onClick={onSubmit}>
+          <Button
+            margin='0 auto'
+            type='submit'
+            onClick={onSubmit}>
             submit
           </Button>
         </form>

@@ -1,34 +1,19 @@
 import { useQuery } from "@apollo/client";
-import PostOperations from "./graphql/operations/post";
 import { Button } from "@chakra-ui/react";
 import { CommentForm } from "./CommentForm";
-import { $comment, User, commentReply, updateComment } from "./utils/store";
-import styles from "./styles/styles.module.css";
+import { $comment, commentReply, updateComment } from "../utils/store";
+import styles from "../styles/styles.module.css";
 import { useStore } from "effector-react";
-import { format } from "./utils/functions";
-interface CommentsProps {
-  postId: string;
-}
+import { format } from "../utils/functions";
+import { CommentOperations } from "../graphql/operations/comment";
+import { CommentsProps, ICommentData } from "../utils/types";
+
 export const Comments = ({ postId }: CommentsProps) => {
-  interface IComment {
-    id: string;
-    postId: string;
-    body: string;
-    createdAt: string;
-    author: string;
-  }
-  interface ICommentData {
-    getComments: getCommentResponse[];
-  }
-  interface getCommentResponse {
-    comment: IComment;
-    user: User;
-  }
   const {
     data: commentData,
     // loading: postLoading,
     // error: postError,
-  } = useQuery<ICommentData>(PostOperations.Query.getComments, {
+  } = useQuery<ICommentData>(CommentOperations.Query.getComments, {
     variables: {
       postId: postId,
     },
@@ -67,7 +52,10 @@ export const Comments = ({ postId }: CommentsProps) => {
             ответить
           </Button>
           {openComment === comment.id && (
-            <CommentForm author={user.username} postId={postId} />
+            <CommentForm
+              author={user.username}
+              postId={postId}
+            />
           )}
         </div>
       ))}

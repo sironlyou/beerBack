@@ -1,30 +1,19 @@
-import { Box, Flex, Grid, Image } from "@chakra-ui/react";
-import { IConversation, IConversationResponse } from "./ConversationsWrapper";
-import styles from "./styles/styles.module.css";
-import PostOperations from "./graphql/operations/post";
-
-import {
-  $conversation,
-  $user,
-  Message,
-  User,
-  updateComment,
-  updateConversation,
-} from "./utils/store";
+import { Box, Flex, Image } from "@chakra-ui/react";
+import styles from "../styles/styles.module.css";
+import { $user, updateConversation } from "../utils/store";
 import { useStore } from "effector-react";
 import { useEffect } from "react";
-import { IMessage, SubscriptionData } from "./ChatWrapper";
 import { useQuery } from "@apollo/client";
-interface getLatestMessage {
-  getLatestMessage: IMessage;
-}
-interface IUnreadCount {
-  getUnreadCount: number;
-}
-interface ConversationItemProps {
-  conversation: IConversation;
-  userItem: User;
-}
+import moment from "moment";
+import { MessageOperations } from "../graphql/operations/message";
+import {
+  ConversationItemProps,
+  getLatestMessage,
+  IUnreadCount,
+  SubscriptionData,
+  IMessage,
+} from "../utils/types";
+
 export const ConversationItem = ({
   conversation,
   userItem,
@@ -34,14 +23,14 @@ export const ConversationItem = ({
     // loading: postLoading,
     // error: postError,
     subscribeToMore,
-  } = useQuery<getLatestMessage>(PostOperations.Query.getLatestMessage, {
+  } = useQuery<getLatestMessage>(MessageOperations.Query.getLatestMessage, {
     variables: { conversationId: conversation.id },
     onError: ({ message }) => {
       console.log(message);
     },
   });
   const { data: unreadCount } = useQuery<IUnreadCount>(
-    PostOperations.Query.getUnreadCount,
+    MessageOperations.Query.getUnreadCount,
     {
       variables: { conversationId: conversation.id },
       onError: ({ message }) => {
@@ -51,7 +40,7 @@ export const ConversationItem = ({
   );
   const subscribeToMoreMessages = (conversationId: string) => {
     return subscribeToMore({
-      document: PostOperations.Subscription.messageSent,
+      document: MessageOperations.Subscription.messageSent,
       variables: {
         conversationId: conversation.id,
       },
@@ -75,6 +64,7 @@ export const ConversationItem = ({
   const user = useStore($user);
   return (
     <Box
+      cursor={"pointer"}
       height={70}
       onClick={(e) =>
         updateConversation({
@@ -85,7 +75,7 @@ export const ConversationItem = ({
       <Flex
         height={"100%"}
         padding={"5px"}>
-        <Flex width={"29%"}>
+        <Flex maxWidth={"60px"}>
           <Image
             borderRadius={50}
             src={userItem.avatar}></Image>
@@ -99,14 +89,25 @@ export const ConversationItem = ({
             <Flex>
               {/* <span>m</span> */}
               {/* <span>r</span> */}
-              {latestMessage?.getLatestMessage.senderId === user.id ? (
-                latestMessage?.getLatestMessage.readBy.includes(userItem.id) ? (
-                  <span>read</span>
-                ) : (
-                  <span>unread</span>
-                )
-              ) : null}
-              <Box>12-15</Box>
+              {latestMessage?.getLatestMessage.senderId ===
+              user.id ? null : latestMessage?.getLatestMessage.readBy.includes(
+                  user.id
+                ) ? (
+                <div>includes</div>
+              ) : (
+                <div>not includes</div>
+              )}
+              <Box>
+                {moment(
+                  new Date(
+                    parseInt(
+                      typeof latestMessage !== "undefined"
+                        ? latestMessage?.getLatestMessage.createdAt
+                        : ""
+                    )
+                  )
+                ).format("HH:mm ")}
+              </Box>
             </Flex>
           </Flex>
           <div className={styles.messageBottom}>
@@ -116,19 +117,16 @@ export const ConversationItem = ({
               </span>
             </div>
             <div>
-              {latestMessage?.getLatestMessage.senderId !== user.id &&
-                !latestMessage?.getLatestMessage.readBy.includes(user.id) && (
-                  <span>unread</span>
-                )}
+              {latestMessage?.getLatestMessage.senderId === user.id &&
+              latestMessage?.getLatestMessage.readBy.includes(userItem.id) ? (
+                <span>read</span>
+              ) : (
+                <span>unread</span>
+              )}
             </div>
           </div>
         </Flex>
       </Flex>
-
-      {/* <div>id {conversation.id}</div>
-           <div>messages{conversation.messages[conversation.messages.length-1]}</div>
-           <div>participants{conversation.participants[conversation.participants.length-1]}</div>
-           <div>visiblefor{conversation.visibleFor}</div> */}
     </Box>
   );
 };

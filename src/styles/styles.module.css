@@ -148,6 +148,9 @@
   justify-content: space-between;
   background-color: #2a4365;
   margin: 0;
+  position: sticky;
+  top: 0;
+  width: 100%;
 }
 .newPost {
   border: none;
@@ -190,53 +193,105 @@
   display: flex;
   padding: 15px;
 }
-.messageText{
+.messageText {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
   overflow: hidden;
   line-height: 17px;
 }
-.usernameText{
+.usernameText {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
 }
-.messageBottom{
+.messageBottom {
   display: flex;
   justify-content: space-between;
 }
-.chatHeader{
+.chatHeader {
   border: 1px solid white;
   width: 100%;
 }
-.chatWrapper{
+.chatWrapper {
   width: 70%;
-  display: flex ;
+  display: flex;
   flex-direction: column;
 }
-.chatAvatar{
+.chatAvatar {
   width: 40px;
   height: 40px;
   border-radius: 50px;
 }
-.messageItem{
-  background-color: #2a4365;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-.feed{
+.feed {
   overflow: scroll;
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100%;
+  justify-content: flex-start;
+  padding-bottom: 15px;
 }
-.feed::-webkit-scrollbar{
+.feed::-webkit-scrollbar {
   display: none;
 }
-.myMessage{ 
-  background-color: #718096;
+.messageItem {
   display: flex;
   flex-direction: column;
-align-items: end;}
+  align-items: flex-start;
+}
+
+.myMessageItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.myMessageItem:first-child {
+  /* margin-top: auto; */
+}
+.myMessage {
+  position: relative;
+  max-width: 60%;
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  /* min-width: 20%; */
+  padding: 7px;
+  border-radius: 10px;
+}
+.receivedMessage {
+  padding: 7px;
+  position: relative;
+  max-width: 60%;
+  background-color: green;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  /* min-width: 20%; */
+}
+.messageTime {
+  position: absolute;
+  bottom: 1px;
+  right: 5px;
+}
+.messageBody {
+  margin-right: 60px;
+}
+.userPageAvatar {
+  border-radius: 50px;
+  width: 100px;
+  height: 100px;
+}
+.userWrap {
+  background-color: #2a4365;
+  border-radius: 10px;
+}
+.userPageUsername {
+  color: white;
+}
+.userInfoWrap {
+  display: flex;
+}

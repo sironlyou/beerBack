@@ -1,17 +1,11 @@
-import { BeerLikeBtn } from "./assets/BeerLikeBtn";
-import styles from "./styles/styles.module.css";
-import PostOperations from "./graphql/operations/post";
+import { BeerLikeBtn } from "../assets/BeerLikeBtn";
+import styles from "../styles/styles.module.css";
 import { useMutation } from "@apollo/client";
 import { useStore } from "effector-react";
-import { $user } from "./utils/store";
-import { Dispatch, SetStateAction } from "react";
-interface PostFooterProps {
-  likes: [string];
-  id: string;
-  comments: [string];
-  setCommentsOpen: Dispatch<SetStateAction<boolean>>;
-  commentsOpen: boolean;
-}
+import { $user } from "../utils/store";
+import { PostOperations } from "../graphql/operations/post";
+import { PostFooterProps } from "../utils/types";
+
 export const PostFooter = ({
   likes,
   id,

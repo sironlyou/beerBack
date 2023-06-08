@@ -2,46 +2,17 @@ import { useQuery } from "@apollo/client";
 import { PostBody } from "./PostBody";
 import { PostFooter } from "./PostFooter";
 import { PostHeader } from "./PostHeader";
-import { Break } from "./assets/Break";
-import PostOperations from "./graphql/operations/post";
-import { $user, User } from "./utils/store";
+import { Break } from "../assets/Break";
+import { $user } from "../utils/store";
 import { useStore } from "effector-react";
 import { Box } from "@chakra-ui/react";
-import { Comments } from "./Comments";
+import { Comments } from "../Comments/Comments";
 import { Dispatch, SetStateAction } from "react";
-import { CommentForm } from "./CommentForm";
+import { CommentForm } from "../Comments/CommentForm";
+import { PostOperations } from "../graphql/operations/post";
+import { IPostData, PostProps } from "../utils/types";
 
-export interface IPost {
-  id: string;
-  author: string;
-  origin: string;
-  alcohol: string;
-  value: string;
-  price: string;
-  taste: string;
-  quality: string;
-  alcoholHit: string;
-  beerName: string;
-  reviewBody: string;
-  rating: string;
-  image: string;
-  likes: [string];
-  createdAt: string;
-  comments: [string];
-}
-interface PostProps {
-  commentsOpen: boolean;
-  setCommentsOpen: Dispatch<SetStateAction<boolean>>;
-}
 export const Post = ({ commentsOpen, setCommentsOpen }: PostProps) => {
-  interface getPostsResponse {
-    post: IPost;
-    user: User;
-  }
-  interface IPostData {
-    getPosts: getPostsResponse[];
-  }
-
   const {
     data: postData,
     // loading: postLoading,
@@ -57,11 +28,11 @@ export const Post = ({ commentsOpen, setCommentsOpen }: PostProps) => {
       {postData &&
         postData.getPosts.map(({ post, user }) => (
           <Box
-            bg="blackAlpha.300"
-            borderRadius="10px"
-            margin="auto"
+            bg='blackAlpha.300'
+            borderRadius='10px'
+            margin='auto'
             marginBottom={6}
-            maxWidth="80%"
+            maxWidth='80%'
             key={post.id}>
             <PostHeader
               createdAt={post.createdAt}
@@ -93,7 +64,10 @@ export const Post = ({ commentsOpen, setCommentsOpen }: PostProps) => {
             {commentsOpen && (
               <>
                 <Comments postId={post.id} />
-                <CommentForm author={account.username} postId={post.id} />
+                <CommentForm
+                  author={account.username}
+                  postId={post.id}
+                />
               </>
             )}
           </Box>

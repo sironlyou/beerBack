@@ -1,17 +1,6 @@
-import styles from "./styles/styles.module.css";
-interface PostBodyProps {
-  alcohol: string;
-  alcoholHit: string;
-  origin: string;
-  beerName: string;
-  value: string;
-  image: string;
-  price: string;
-  quality: string;
-  rating: string;
-  reviewBody: string;
-  taste: string;
-}
+import styles from "../styles/styles.module.css";
+import { PostBodyProps } from "../utils/types";
+
 export const PostBody = ({
   alcohol,
   alcoholHit,
@@ -32,7 +21,6 @@ export const PostBody = ({
     { вкус: taste },
   ];
   const tagsArr = [{ origin }, "aclPercent", "price"];
-  // console.log("object", progressBarArr);
   return (
     <div className={styles.postBody}>
       <div className={styles.tags}>
@@ -45,7 +33,9 @@ export const PostBody = ({
       <div className={styles.barsWrap}>
         {" "}
         {progressBarArr.map((item) => (
-          <div key={Object.keys(item)[0]} className={styles.progressBar}>
+          <div
+            key={Object.keys(item)[0]}
+            className={styles.progressBar}>
             <span className={styles.progressBarName}>
               {Object.keys(item)[0]}
             </span>
@@ -61,7 +51,11 @@ export const PostBody = ({
       <div>
         <span className={styles.commentText}>{reviewBody}</span>
       </div>
-      <img className={styles.postImg} src={image} alt="" />
+      <img
+        className={styles.postImg}
+        src={image}
+        alt=''
+      />
     </div>
   );
 };

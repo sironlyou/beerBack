@@ -1,11 +1,6 @@
 import { Skeleton } from "@chakra-ui/react";
 import React from "react";
-
-interface SkeletonLoaderProps {
-  count: number;
-  height: string;
-  width: string;
-}
+import { SkeletonLoaderProps } from "./types";
 
 export const SkeletonLoader = ({
   count,

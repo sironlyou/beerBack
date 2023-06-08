@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { updateUser } from "./utils/store";
+import { updateUser } from "../utils/store";
 import { FormEvent, useCallback, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import UserOperations from "./graphql/operations/post";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Input, Text } from "@chakra-ui/react";
 import { useDropzone } from "react-dropzone";
-import styles from "./styles/styles.module.css";
+import styles from "../styles/styles.module.css";
+import { UserOperations } from "../graphql/operations/user";
 export const SignUp = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export const SignUp = () => {
         id: user.id,
         username: user.username,
       });
-      localStorage.setItem('userId',user.id)
+      localStorage.setItem("userId", user.id);
 
       navigate("/feed");
     } catch (error) {
@@ -75,10 +75,12 @@ export const SignUp = () => {
       <Box
         width={300}
         maxWidth={"50%"}
-        margin="0 auto"
+        margin='0 auto'
         marginTop={"8vh"}
-        marginBottom="8">
-        <form action="" onSubmit={onSubmit}>
+        marginBottom='8'>
+        <form
+          action=''
+          onSubmit={onSubmit}>
           <div
             className={isDragActive ? styles.dropzone : styles.dropzone}
             {...getRootProps()}>
@@ -89,14 +91,14 @@ export const SignUp = () => {
               <img
                 className={styles.selectedImg}
                 src={URL.createObjectURL(selectedFile)}
-                alt=""
+                alt=''
               />
             )}
           </div>
           <Input
             mb={2}
-            type="text"
-            placeholder="email"
+            type='text'
+            placeholder='email'
             value={fields.email}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, email: event.target.value })
@@ -104,8 +106,8 @@ export const SignUp = () => {
           />
           <Input
             mb={2}
-            type="text"
-            placeholder="username"
+            type='text'
+            placeholder='username'
             value={fields.username}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, username: event.target.value })
@@ -113,19 +115,25 @@ export const SignUp = () => {
           />
           <Input
             mb={2}
-            type="text"
-            placeholder="password"
+            type='text'
+            placeholder='password'
             value={fields.password}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFields({ ...fields, password: event.target.value })
             }
           />
           {/* <Input type="file" onChange={handleFileSelect} /> */}
-          <Button mb={2} width={"100%"} type="submit" onClick={onSubmit}>
+          <Button
+            mb={2}
+            width={"100%"}
+            type='submit'
+            onClick={onSubmit}>
             submit
           </Button>
         </form>
-        <Box display={"flex"} justifyContent={"space-between"}>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}>
           <Text fontSize={10}>Dont have an account? </Text>
           {/* <ChakraLink href="/signin"> */}
           <Link to={"/signin"}>
