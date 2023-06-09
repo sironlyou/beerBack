@@ -1,8 +1,8 @@
 import { createEvent, createStore } from "effector";
-import { GetMessagesQuery, User } from "./types";
+import { GetMessagesQuery, LocalUser } from "./types";
 
-export const updateUser = createEvent<User>();
-export const $user = createStore<User>({
+export const updateUser = createEvent<LocalUser>();
+export const $user = createStore<LocalUser>({
   avatar: "",
   email: "",
   id: "",
@@ -13,6 +13,11 @@ export const $user = createStore<User>({
 export const updateModal = createEvent<boolean>();
 export const $modal = createStore<boolean>(false).on(
   updateModal,
+  (_, newModal) => newModal
+);
+export const updateMessageModal = createEvent<boolean>();
+export const $messageModal = createStore<boolean>(false).on(
+  updateMessageModal,
   (_, newModal) => newModal
 );
 // $modal.watch((state) => console.log(state));

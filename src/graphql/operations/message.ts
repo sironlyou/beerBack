@@ -83,41 +83,24 @@ export const MessageOperations = {
     `,
 
     getMessages: gql`
-      query GetMessages($conversationid: String, $participantId: String) {
-        getMessages(
-          conversationid: $conversationid
-          participantId: $participantId
-        ) {
-          messages {
-            body
-            conversation
-            createdAt
-            id
-            media
-            readBy
-            senderId
-            updatedAt
-            visibleFor
-          }
-          userInfo {
-            avatar
-            birthdate
-            email
-            friends
-            id
-            incomingRequests
-            karma
-            password
-            sentRequests
-            username
-          }
+      query GetMessages($conversationid: String) {
+        getMessages(conversationid: $conversationid) {
+          body
+          conversation
+          id
+          media
+          createdAt
+          readBy
+          senderId
+          visibleFor
+          updatedAt
         }
       }
     `,
   },
   Subscription: {
     messageSent: gql`
-      subscription MessageSent($conversationId: String) {
+      subscription MessageSent($conversationId: [String]) {
         messageSent(conversationId: $conversationId) {
           body
           conversation

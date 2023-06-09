@@ -5,24 +5,22 @@ import { useState } from "react";
 import { Search } from "./Search";
 import { UserOperations } from "../graphql/operations/user";
 import {
-  IConversationData1,
+  IConversationData,
   getUsersData,
   IConversationResponse,
 } from "../utils/types";
 
 export const ConversationsWrapper = ({
   getConversations,
-}: IConversationData1) => {
+}: IConversationData) => {
   const [userQuery, { data, loading }] = useLazyQuery<getUsersData>(
     UserOperations.Query.getUsers
   );
   const [searchActive, setSearchActive] = useState(false);
   const filteredConversations: IConversationResponse[] =
     getConversations.filter((convo) => {
-      return convo.conversation.messages.length !== 0;
+      return convo.latestMessage !== null;
     });
-  console.log("filter", filteredConversations);
-  console.log("no filter", getConversations);
   return (
     <Box
       border={"1px solid white"}
@@ -51,6 +49,7 @@ export const ConversationsWrapper = ({
               key={item.conversation.id}
               conversation={item.conversation}
               userItem={item.userItem}
+              latestMessage={item.latestMessage}
             />
           ))}
         </>

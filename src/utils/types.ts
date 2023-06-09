@@ -5,8 +5,12 @@ export interface ChatBodyProps {
   loading: boolean;
 }
 export interface ChatHeaderProps {
-  userInfo?: User;
+  userData?: User;
   loading: boolean;
+}
+export interface ChatFooterProps {
+  userData?: User;
+  conversationId: string;
 }
 export interface SubscriptionData {
   subscriptionData: {
@@ -29,7 +33,7 @@ export interface IMessage {
   visibleFor: [string];
 }
 export interface GetMessagesData {
-  getMessages: IMessageData;
+  getMessages: IMessage[];
 }
 export interface IMessageData {
   messages: IMessage[];
@@ -44,6 +48,7 @@ export interface IUnreadCount {
 export interface ConversationItemProps {
   conversation: IConversation;
   userItem: User;
+  latestMessage: Message;
 }
 export interface IConversation {
   id: string;
@@ -54,15 +59,13 @@ export interface IConversation {
 export interface IConversationResponse {
   conversation: IConversation;
   userItem: User;
-  message: Message;
+  latestMessage: Message;
   unreadCount: number;
 }
 export interface IConversationData {
   getConversations: IConversationResponse[];
 }
-export interface IConversationData1 {
-  getConversations: IConversationResponse[];
-}
+
 export interface getUsersData {
   getUsers: User[];
 }
@@ -74,10 +77,11 @@ export interface SearchProps {
   data?: User[];
 }
 export interface ICreateConversation {
-  conversationData: ConversationData;
+  conversation: IConversation;
+  userItem: User;
 }
 export interface ConversationData {
-  createConversation: IConversation;
+  createConversation: ICreateConversation;
 }
 export interface UserItemProps {
   user: User;
@@ -168,13 +172,16 @@ export interface User {
   avatar: string;
   id: string;
   username: string;
+  sentRequests: string[];
+  incomingRequests: string[];
+  friends: string[];
 }
 export interface Message {
   conversation: string;
   senderId: string;
   body: string;
   media: string[];
-  createdAt: String;
+  createdAt: string;
   updatedAt: string;
   readBy: string[];
   visibleFor: string[];
@@ -182,4 +189,22 @@ export interface Message {
 export interface GetMessagesQuery {
   conversationid: string;
   participantId: string;
+}
+export interface FriendsProps {
+  userId: string;
+}
+export interface getFriendsData {
+  getFriends: User[];
+}
+export interface FriendItemProps {
+  user: User;
+}
+export interface LocalUser {
+  email: string;
+  avatar: string;
+  id: string;
+  username: string;
+}
+export interface SendMessageModalProps {
+  participant: User;
 }

@@ -27,7 +27,7 @@ const wsLink = new GraphQLWsLink(
   createClient({
     url: "ws://localhost:4000/subscriptions",
     connectionParams: {
-      userId: localStorage.getItem("id"),
+      userId: localStorage.getItem("userId"),
     },
   })
 );

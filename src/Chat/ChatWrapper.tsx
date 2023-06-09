@@ -9,11 +9,15 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useRef } from "react";
 import { MessageOperations } from "../graphql/operations/message";
 import { GetMessagesData, IMessage, SubscriptionData } from "../utils/types";
+import { useLocation } from "react-router-dom";
+import { UserOperations } from "../graphql/operations/user";
 
 export const ChatWrapper = () => {
   const user = useStore($user);
 
-  const conversationId = useStore($conversation);
+  const location = useLocation();
+  const conversationid = location.pathname.substring(6);
+
   const {
     data: messageData,
     loading,
@@ -22,58 +26,40 @@ export const ChatWrapper = () => {
     // error: postError,
   } = useQuery<GetMessagesData>(MessageOperations.Query.getMessages, {
     variables: {
-      conversationid: conversationId.conversationid,
-      participantId: conversationId.participantId,
+      conversationid: conversationid,
     },
     onError: ({ message }) => {
       console.log(message);
     },
   });
 
-  const subscribeToMoreMessages = (conversationId: string) => {
-    return subscribeToMore({
-      document: MessageOperations.Subscription.messageSent,
-      variables: {
-        conversationId: conversationId,
-      },
+  const {
+    data,
+    error,
+    loading: participantLoading,
+  } = useQuery(UserOperations.Query.getChatParticipant, {
+    variables: { conversationId: conversationid },
+  });
 
-      updateQuery: (prev, { subscriptionData }: SubscriptionData) => {
-        if (!subscriptionData.data) return prev;
-
-        const newMessage: IMessage = subscriptionData.data.messageSent;
-        console.log(newMessage);
-        return Object.assign({}, prev, {
-          getMessages: {
-            messages: [...prev.getMessages.messages, newMessage],
-            userInfo: prev.getMessages.userInfo,
-          },
-        });
-      },
-    });
-  };
-  useEffect(() => {
-    const unsubscribe = subscribeToMoreMessages(conversationId.conversationid);
-
-    return () => unsubscribe();
-  }, [conversationId]);
-
-  const conversation = useStore($conversation);
   return (
     <>
-      {conversation.conversationid !== "" ? (
+      {conversationid !== "" ? (
         <div className={styles.chatWrapper}>
           <ChatHeader
-            loading={loading}
-            userInfo={messageData?.getMessages.userInfo}
+            userData={data?.getChatParticipant}
+            loading={participantLoading}
           />
           <ChatBody
             loading={loading}
-            messages={messageData?.getMessages.messages}
+            messages={messageData?.getMessages}
           />
-          <ChatFooter />
+          <ChatFooter
+            conversationId={conversationid}
+            userData={data?.getChatParticipant}
+          />
         </div>
       ) : (
-        <div>no chat selected</div>
+        <div>no conersation selected</div>
       )}
     </>
   );

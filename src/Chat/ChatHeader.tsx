@@ -1,18 +1,14 @@
-import { Button } from "@chakra-ui/react";
 import styles from "../styles/styles.module.css";
 import { SkeletonLoader } from "../utils/SkeletonLoader";
 import { ChatHeaderProps } from "../utils/types";
 
-export const ChatHeader = ({ userInfo, loading }: ChatHeaderProps) => {
+import { useNavigate } from "react-router-dom";
+
+export const ChatHeader = ({ userData, loading }: ChatHeaderProps) => {
+  const navigate = useNavigate();
   return (
     <div className={styles.chatHeader}>
       <div style={{ display: "flex" }}>
-        {/* <Button
-          onClick={(e) =>
-            updateConversation({ conversationid: "", participantId: "" })
-          }>
-          back
-        </Button> */}
         {loading && (
           <SkeletonLoader
             count={1}
@@ -21,12 +17,18 @@ export const ChatHeader = ({ userInfo, loading }: ChatHeaderProps) => {
           />
         )}
         {!loading && (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            onClick={(e) => navigate(`/user/${userData?.username}`)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}>
             <img
               className={styles.chatAvatar}
-              src={userInfo?.avatar}
+              src={userData?.avatar}
             />
-            <div>{userInfo?.username}</div>
+            <div>{userData?.username}</div>
           </div>
         )}
       </div>

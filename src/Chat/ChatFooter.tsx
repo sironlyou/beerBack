@@ -1,13 +1,10 @@
 import { useMutation } from "@apollo/client";
 import { Button, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import { useStore } from "effector-react";
-import { $conversation } from "../utils/store";
 import { MessageOperations } from "../graphql/operations/message";
+import { ChatFooterProps, User } from "../utils/types";
 
-export const ChatFooter = () => {
-  const conversationId = useStore($conversation);
-
+export const ChatFooter = ({ userData, conversationId }: ChatFooterProps) => {
   const [messageBody, setMessageBody] = useState("");
   const [createMessage] = useMutation(
     MessageOperations.Mutations.createMessage
@@ -17,10 +14,10 @@ export const ChatFooter = () => {
     e.preventDefault();
     createMessage({
       variables: {
-        conversationId: conversationId.conversationid,
+        conversationId: conversationId,
         body: messageBody,
         media: [""],
-        receiverId: conversationId.participantId,
+        receiverId: userData?.id,
       },
     });
     setMessageBody("");

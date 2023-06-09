@@ -108,6 +108,38 @@ export const UserOperations = {
     `,
   },
   Query: {
+    getChatParticipant: gql`
+      query GetChatParticipant($conversationId: String) {
+        getChatParticipant(conversationId: $conversationId) {
+          avatar
+          birthdate
+          email
+          friends
+          incomingRequests
+          karma
+          id
+          password
+          sentRequests
+          username
+        }
+      }
+    `,
+    getFriends: gql`
+      query GetFriends($userId: String) {
+        getFriends(userId: $userId) {
+          avatar
+          birthdate
+          friends
+          id
+          incomingRequests
+          password
+          karma
+          sentRequests
+          username
+          email
+        }
+      }
+    `,
     getUsers: gql`
       query GetUsers($username: String) {
         getUsers(username: $username) {

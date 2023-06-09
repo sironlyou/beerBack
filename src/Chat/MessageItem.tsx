@@ -2,10 +2,10 @@ import styles from "../styles/styles.module.css";
 import { useStore } from "effector-react";
 import moment from "moment";
 import { $user } from "../utils/store";
-import { MessageItemProps, User } from "../utils/types";
+import { MessageItemProps, LocalUser } from "../utils/types";
 
 export const MessageItem = ({ messagesEndRef, message }: MessageItemProps) => {
-  const user: User = useStore($user);
+  const user: LocalUser = useStore($user);
 
   return (
     <div

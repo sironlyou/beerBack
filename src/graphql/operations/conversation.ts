@@ -10,6 +10,38 @@ export const ConversationOperations = {
     createConversation: gql`
       mutation CreateConversation($receiver: String) {
         createConversation(receiver: $receiver) {
+          conversation {
+            visibleFor
+            id
+            messages
+            participants
+          }
+
+          userItem {
+            avatar
+            birthdate
+            email
+            friends
+            id
+            incomingRequests
+            karma
+            password
+            sentRequests
+            username
+          }
+        }
+      }
+    `,
+  },
+  Query: {
+    getAllConversationIds: gql`
+      query Query {
+        getAllConversationIds
+      }
+    `,
+    getConversationId: gql`
+      query GetConversationId($participantId: String) {
+        getConversationId(participantId: $participantId) {
           id
           messages
           participants
@@ -17,8 +49,6 @@ export const ConversationOperations = {
         }
       }
     `,
-  },
-  Query: {
     getLatestMessage: gql`
       query Query($conversationId: String) {
         getLatestMessage(conversationId: $conversationId) {
@@ -36,25 +66,36 @@ export const ConversationOperations = {
     `,
 
     getConversations: gql`
-      query Query {
+      query GetConversations {
         getConversations {
           conversation {
             id
+            messages
             participants
             visibleFor
-            messages
+          }
+          latestMessage {
+            body
+            conversation
+            createdAt
+            id
+            media
+            readBy
+            senderId
+            updatedAt
+            visibleFor
           }
           userItem {
             avatar
             birthdate
             email
-            incomingRequests
+            friends
             id
+            incomingRequests
+            karma
             password
             sentRequests
             username
-            karma
-            friends
           }
         }
       }
@@ -75,10 +116,25 @@ export const ConversationOperations = {
     conversationCreated: gql`
       subscription ConversationCreated {
         conversationCreated {
-          id
-          messages
-          participants
-          visibleFor
+          conversation {
+            id
+            messages
+            participants
+            visibleFor
+          }
+
+          userItem {
+            avatar
+            birthdate
+            email
+            friends
+            id
+            karma
+            password
+            sentRequests
+            username
+            incomingRequests
+          }
         }
       }
     `,

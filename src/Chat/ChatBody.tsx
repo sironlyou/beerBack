@@ -5,11 +5,9 @@ import { useEffect, useRef } from "react";
 import { SkeletonLoader } from "../utils/SkeletonLoader";
 import { Stack } from "@chakra-ui/react";
 import { MessageItem } from "./MessageItem";
-import { ChatBodyProps, User } from "../utils/types";
+import { ChatBodyProps, LocalUser } from "../utils/types";
 
 export const ChatBody = ({ messages, loading }: ChatBodyProps) => {
-  const conversation = useStore($conversation);
-  const user: User = useStore($user);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!messagesEndRef.current || !messages) return;
@@ -30,14 +28,13 @@ export const ChatBody = ({ messages, loading }: ChatBodyProps) => {
         </Stack>
       )}
       <div>
-        {conversation.conversationid !== "" &&
-          messages?.map((message) => (
-            <MessageItem
-              messagesEndRef={messagesEndRef}
-              key={message.id}
-              message={message}
-            />
-          ))}
+        {messages?.map((message) => (
+          <MessageItem
+            messagesEndRef={messagesEndRef}
+            key={message.id}
+            message={message}
+          />
+        ))}
       </div>
     </div>
   );
